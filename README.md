@@ -1,0 +1,1 @@
+# dictionary_translator_app
