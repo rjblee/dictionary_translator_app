@@ -116,12 +116,32 @@ class _TranslatorState extends State<Translator> {
                 Container(
                   color: Color(0XFFc8dcfd),
                   child: Container(
+                    height: 50,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50),
                         topRight: Radius.circular(10),
                       ),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 15,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.text_fields),
+                        DropdownButton(value: "English", items: [
+                          DropdownMenuItem<String>(
+                            value: "English",
+                            child: Text("English"),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: "Englis2h",
+                            child: Text("Englis2h"),
+                          ),
+                        ]),
+                      ],
                     ),
                   ),
                 ),
