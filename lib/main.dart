@@ -1,25 +1,52 @@
 import 'package:dictionarytranslatorapp/screens/dictionary.dart';
-import 'file:///G:/esunb/Github/dictionary_translator_app/lib/screens/translator.dart';
+import 'package:dictionarytranslatorapp/screens/translator.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyTranslator());
 }
 
-class MyTranslator extends StatefulWidget{
+class MyTranslator extends StatefulWidget {
   @override
   _MyTranslatorState createState() => _MyTranslatorState();
 }
 
 class _MyTranslatorState extends State<MyTranslator> {
-  int selectedIndex = 1;
-  List<Widget> pageList = [Translator(), Dictionary()];
+  int _selectedIndex = 0;
+  static List<Widget> _pageList = <Widget>[Translator(), Dictionary()];
+
+  void onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: pageList[selectedIndex],
+        appBar: AppBar(
+          backgroundColor: Color(0xff3651fb),
+          elevation: 0,
+          leading: Icon(
+            Icons.menu,
+            color: Colors.white,
+          ),
+          actions: [
+            Center(child: Text("Voice translate")),
+            IconButton(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              color: Colors.white,
+              icon: Icon(
+                Icons.settings_voice,
+//                color: Color(0xff3651fb),
+                color: Color(0xffffffff),
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: _pageList[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
@@ -27,15 +54,11 @@ class _MyTranslatorState extends State<MyTranslator> {
               icon: Icon(Icons.text_fields),
             ),
             BottomNavigationBarItem(
-              title: Text("Translator"),
+              title: Text("Dictionary"),
               icon: Icon(Icons.library_books),
             ),
           ],
-          onTap: (index){
-            setState(() {
-              selectedIndex = index;
-            });
-          },
+          onTap: onItemTapped,
         ),
       ),
     );
