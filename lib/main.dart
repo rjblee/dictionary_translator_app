@@ -26,7 +26,7 @@ class _MyTranslatorState extends State<MyTranslator> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff3651fb),
+          backgroundColor: Color(0xff001c2f),
           elevation: 0,
           leading: Icon(
             Icons.menu,
