@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class Dictionary extends StatefulWidget {
   @override
@@ -11,7 +15,29 @@ class _DictionaryState extends State<Dictionary> {
 
   TextEditingController _controller = TextEditingController();
 
-  _search() {}
+  StreamController _streamController;
+  Stream _stream;
+
+  Timer _debounce;
+
+  _search() async {
+    if (_controller.text == null || _controller.text.length == 0) {
+      _streamController.add(null);
+      return;
+    }
+
+    _streamController.add("waiting");
+    Response response = await get(_url + _controller.text.trim(),
+        headers: {"Authorization": "Token " + _token});
+    _streamController.add(json.decode(response.body));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _streamController = StreamController();
+    _stream = _streamController.stream;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +58,13 @@ class _DictionaryState extends State<Dictionary> {
                       borderRadius: BorderRadius.circular(24),
                     ),
                     child: TextFormField(
-                      onChanged: (String text) {},
+                      onChanged: (String text) {
+                        if (_debounce?.isActive ?? false) _debounce.cancel();
+                        _debounce =
+                            Timer(const Duration(milliseconds: 2000), () {
+                          _search();
+                        });
+                      },
                       controller: _controller,
                       decoration: InputDecoration(
                         hintText: "Search for a Word",
@@ -55,7 +87,57 @@ class _DictionaryState extends State<Dictionary> {
             ),
           ),
         ),
-        body: StreamBuilder(builder: null),
+        body: Container(
+          margin: EdgeInsets.all(10),
+          child: StreamBuilder(
+            stream: _stream,
+            builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return Center(
+                  child: Text("Enter a search word"),
+                );
+              }
+
+              if (snapshot.data == "waiting") {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return ListView.builder(
+                itemCount: snapshot.data["definitions"].length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListBody(
+                    children: [
+                      Container(
+                        color: Colors.grey[300],
+                        child: ListTile(
+                          leading: snapshot.data["definitions"][index]
+                                      ["image_url"] ==
+                                  null
+                              ? null
+                              : CircleAvatar(
+                                  backgroundImage: NetworkImage(snapshot
+                                      .data["definitions"][index]["image_url"]),
+                                ),
+                          title: Text(_controller.text.trim() +
+                              "(" +
+                              snapshot.data["definitions"][index]["type"] +
+                              ")"),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                            snapshot.data["definitions"][index]["definition"]),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
