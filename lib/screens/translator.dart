@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:translator/translator.dart';
 
 class Translator extends StatefulWidget {
   @override
@@ -17,6 +18,24 @@ class _TranslatorState extends State<Translator> {
     TextEditingController _starLangController = TextEditingController();
     TextEditingController _targetController = TextEditingController();
     double visualAreaHeight = size.height * 0.2;
+    final translator = new GoogleTranslator();
+
+    String startText = " I love you";
+    String translatedText;
+
+    void main() async {
+      translator.translate(startText, from: 'en', to: 'ru').then((s) {
+        print(s);
+      });
+
+      var translation = await translator.translate(
+        "Dart is very cool",
+        to: 'pl',
+      );
+      print(translation);
+
+      print(await "example".translate(to: 'pt'));
+    }
 
     return Form(
       key: _formKey,
@@ -93,7 +112,7 @@ class _TranslatorState extends State<Translator> {
                         hintText: "Start Language",
                         border: InputBorder.none,
                       ),
-                      onEditingComplete: () {},
+//                      onEditingComplete: () {},
                     ),
                   ),
                 ),
