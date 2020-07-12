@@ -163,10 +163,14 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
 <<<<<<< HEAD
+<<<<<<< HEAD
     version: "0.2.17"
 =======
     version: "0.2.16"
 >>>>>>> dictionary-api
+=======
+    version: "0.2.17"
+>>>>>>> 27a2cd3a2d6f03942b62d19aa2e96254f735ce48
   translator:
     dependency: "direct main"
     description:
