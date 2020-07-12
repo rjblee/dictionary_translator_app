@@ -26,7 +26,12 @@ class _DictionaryState extends State<Dictionary> {
       return;
     }
 
+//    if (_controller.text == int) {
+//      _streamController.add("No searches found");
+//    }
+
     _streamController.add("waiting");
+
     Response response = await get(_url + _controller.text.trim(),
         headers: {"Authorization": "Token " + _token});
     _streamController.add(json.decode(response.body));
@@ -44,10 +49,10 @@ class _DictionaryState extends State<Dictionary> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Dictionary"),
-          backgroundColor: Colors.blueAccent,
+          title: Center(child: Text("Dictionary")),
+          backgroundColor: Color(0xff001c2f),
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(48),
+            preferredSize: Size.fromHeight(60),
             child: Row(
               children: [
                 Expanded(
@@ -121,16 +126,22 @@ class _DictionaryState extends State<Dictionary> {
                                       .data["definitions"][index]["image_url"]),
                                 ),
                           title: Text(_controller.text.trim() +
-                              "(" +
+                              " (" +
                               snapshot.data["definitions"][index]["type"] +
                               ")"),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(
+                        child: Text("Definition: " +
                             snapshot.data["definitions"][index]["definition"]),
-                      )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text("Example: \"" +
+                            snapshot.data["definitions"][index]["example"] +
+                            "\""),
+                      ),
                     ],
                   );
                 },
