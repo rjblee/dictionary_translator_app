@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:http/http.dart';
 
 class Dictionary extends StatefulWidget {
@@ -57,12 +58,21 @@ class _DictionaryState extends State<Dictionary> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Container(
+                  child: Neumorphic(
                     margin: EdgeInsets.only(left: 18, bottom: 14),
-                    decoration: BoxDecoration(
+                    style: NeumorphicStyle(
+                      shape: NeumorphicShape.flat,
+                      lightSource: LightSource.bottom,
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
+                      depth: 10,
+                      boxShape: NeumorphicBoxShape.roundRect(
+                        BorderRadius.circular(24),
+                      ),
                     ),
+//                    decoration: BoxDecoration(
+//                      color: Colors.white,
+//                      borderRadius: BorderRadius.circular(24),
+//                    ),
                     child: TextFormField(
                       onChanged: (String text) {
                         if (_debounce?.isActive ?? false) _debounce.cancel();
@@ -116,11 +126,19 @@ class _DictionaryState extends State<Dictionary> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListBody(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blueGrey[200],
-                          borderRadius: BorderRadius.circular(18),
-                        ),
+                      Neumorphic(
+                        style: NeumorphicStyle(
+                          shape: NeumorphicShape.flat,
+                          lightSource: LightSource.top,
+                          color: Colors.blue[100],
+                          depth: 5,
+                          boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(24),
+                          ),
+                        ), //                        decoration: BoxDecoration(
+//                          color: Colors.blueGrey[200],
+//                          borderRadius: BorderRadius.circular(18),
+//                        ),
                         child: ListTile(
                           leading: snapshot.data["definitions"][index]
                                       ["image_url"] ==
