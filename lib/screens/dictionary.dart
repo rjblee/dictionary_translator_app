@@ -54,10 +54,11 @@ class _DictionaryState extends State<Dictionary> {
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(60),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(left: 12, bottom: 8),
+                    margin: EdgeInsets.only(left: 18, bottom: 14),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(24),
@@ -73,7 +74,7 @@ class _DictionaryState extends State<Dictionary> {
                       controller: _controller,
                       decoration: InputDecoration(
                         hintText: "Search for a Word",
-                        contentPadding: EdgeInsets.only(left: 24),
+                        contentPadding: EdgeInsets.only(left: 34),
                         border: InputBorder.none,
                       ),
                     ),
@@ -83,6 +84,7 @@ class _DictionaryState extends State<Dictionary> {
                   icon: Icon(
                     Icons.search,
                     color: Colors.white,
+                    size: 36,
                   ),
                   onPressed: () {
                     _search();
@@ -115,7 +117,10 @@ class _DictionaryState extends State<Dictionary> {
                   return ListBody(
                     children: [
                       Container(
-                        color: Colors.grey[300],
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey[200],
+                          borderRadius: BorderRadius.circular(18),
+                        ),
                         child: ListTile(
                           leading: snapshot.data["definitions"][index]
                                       ["image_url"] ==
@@ -133,14 +138,26 @@ class _DictionaryState extends State<Dictionary> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text("Definition: " +
-                            snapshot.data["definitions"][index]["definition"]),
+                        child: Text(
+                          "Definition: " +
+                              snapshot.data["definitions"][index]["definition"],
+                          style: TextStyle(
+                            fontSize: 18,
+//                            fontFamily: 'Raleway',
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text("Example: \"" +
-                            snapshot.data["definitions"][index]["example"] +
-                            "\""),
+                        child: Text(
+                          "Example: \"" +
+                              snapshot.data["definitions"][index]["example"] +
+                              "\"",
+                          style: TextStyle(
+                            fontSize: 18,
+//                            fontFamily: 'Raleway',
+                          ),
+                        ),
                       ),
                     ],
                   );
