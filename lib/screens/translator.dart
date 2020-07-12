@@ -9,32 +9,30 @@ class Translator extends StatefulWidget {
 }
 
 class _TranslatorState extends State<Translator> {
+  final translator = new GoogleTranslator();
+  double visualAreaHeight;
+  String currentLang;
+  String targetLang;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController _starLangController = TextEditingController();
+  TextEditingController _targetController = TextEditingController();
+  String startText;
+  String translatedText = '';
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String currentLang;
-    String targetLang;
-    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    TextEditingController _starLangController = TextEditingController();
-    TextEditingController _targetController = TextEditingController();
-    double visualAreaHeight = size.height * 0.2;
-    final translator = new GoogleTranslator();
 
-    String startText = " I love you";
-    String translatedText;
-
-    void main() async {
-      translator.translate(startText, from: 'en', to: 'ru').then((s) {
-        print(s);
+    Future<String> translateIt() async {
+      setState(() {
+        startText = _starLangController.text;
       });
-
-      var translation = await translator.translate(
-        "Dart is very cool",
-        to: 'pl',
+      var text = await translator.translate(
+        startText,
+        to: 'pt',
       );
-      print(translation);
 
-      print(await "example".translate(to: 'pt'));
+      return text;
     }
 
     return Form(
@@ -45,7 +43,9 @@ class _TranslatorState extends State<Translator> {
             color: Color(0XFFc8dcfd),
             child: Container(
               width: size.width,
-              height: visualAreaHeight,
+              height: visualAreaHeight != null
+                  ? visualAreaHeight
+                  : size.height * 0.3,
               decoration: BoxDecoration(
                 color: Color(0xff001c2f),
                 borderRadius: BorderRadius.only(
@@ -112,7 +112,19 @@ class _TranslatorState extends State<Translator> {
                         hintText: "Start Language",
                         border: InputBorder.none,
                       ),
-//                      onEditingComplete: () {},
+                      onTap: () {
+                        setState(() {
+                          visualAreaHeight = size.height * 0.1;
+                        });
+                      },
+                      onEditingComplete: () async {
+                        var text = await translateIt();
+                        setState(() {
+                          translatedText = "";
+                          translatedText = text;
+                          visualAreaHeight = size.height * 0.3;
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -165,23 +177,16 @@ class _TranslatorState extends State<Translator> {
                   ),
                 ),
                 Container(
-                  child: TextFormField(
-                    controller: _targetController,
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Text(
+                    translatedText != null ? translatedText : "Target Language",
                     style: TextStyle(
                       color: Colors.grey[700],
                       fontSize: 20,
-                      decoration: TextDecoration.none,
-                    ),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 20,
-                      ),
-                      hintText: "Target Language",
-                      border: InputBorder.none,
                     ),
                   ),
-                )
+                ),
               ],
             ),
           )
