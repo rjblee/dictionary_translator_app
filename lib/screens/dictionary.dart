@@ -23,7 +23,7 @@ class _DictionaryState extends State<Dictionary> {
   Timer _debounce;
 
   _search() async {
-    if (_controller.text == null || _controller.text.length == 0) {
+    if (_controller.text == null || _controller.text.length == 0 ) {
       _streamController.add(null);
       return;
     }
@@ -67,7 +67,7 @@ class _DictionaryState extends State<Dictionary> {
                       color: Colors.white,
                       depth: 10,
                       boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(24),
+                        BorderRadius.circular(25),
                       ),
                     ),
 //                    decoration: BoxDecoration(
@@ -98,6 +98,7 @@ class _DictionaryState extends State<Dictionary> {
                     size: 36,
                   ),
                   onPressed: () {
+                    FocusScope.of(context).unfocus();
                     _search();
                   },
                 )
@@ -131,10 +132,10 @@ class _DictionaryState extends State<Dictionary> {
                         style: NeumorphicStyle(
                           shape: NeumorphicShape.flat,
                           lightSource: LightSource.top,
-                          color: Colors.blue[100],
+                          color: Colors.yellow[700],
                           depth: 5,
                           boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(24),
+                            BorderRadius.circular(10),
                           ),
                         ), //                        decoration: BoxDecoration(
 //                          color: Colors.blueGrey[200],
