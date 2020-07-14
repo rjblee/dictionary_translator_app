@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -148,32 +149,77 @@ class _DictionaryState extends State<Dictionary> {
                                   backgroundImage: NetworkImage(snapshot
                                       .data["definitions"][index]["image_url"]),
                                 ),
-                          title: Text(_controller.text.trim() +
-                              " (" +
-                              snapshot.data["definitions"][index]["type"] +
-                              ")"),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Definition: " +
-                              snapshot.data["definitions"][index]["definition"],
-                          style: TextStyle(
-                            fontSize: 18,
-//                            fontFamily: 'Raleway',
+                          title: RichText(
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: [
+                                TextSpan(
+                                  text: _controller.text.trim(),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: " (",
+                                ),
+                                TextSpan(
+                                    text: snapshot.data["definitions"][index]
+                                        ["type"]),
+                                TextSpan(
+                                  text: ")",
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Example: \"" +
-                              snapshot.data["definitions"][index]["example"] +
-                              "\"",
-                          style: TextStyle(
-                            fontSize: 18,
-//                            fontFamily: 'Raleway',
+                        child: RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: [
+                              TextSpan(
+                                text: "Definition: \n",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text: snapshot.data["definitions"][index]
+                                    ["definition"],
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: [
+                              TextSpan(
+                                text: "Example: \"",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: snapshot.data["definitions"][index]
+                                    ["example"],
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "\"",
+                              ),
+                            ],
                           ),
                         ),
                       ),
