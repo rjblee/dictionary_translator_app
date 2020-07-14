@@ -32,19 +32,6 @@ class _MyTranslatorState extends State<MyTranslator> {
             Icons.menu,
             color: Colors.white,
           ),
-          actions: [
-            Center(child: Text("Voice translate")),
-            IconButton(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              color: Colors.white,
-              icon: Icon(
-                Icons.settings_voice,
-//                color: Color(0xff3651fb),
-                color: Color(0xffffffff),
-              ),
-              onPressed: () {},
-            ),
-          ],
         ),
         body: _pageList[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
