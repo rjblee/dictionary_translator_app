@@ -1,4 +1,3 @@
-
 import 'dart:math';
 import 'package:dictionarytranslatorapp/widgets/language-list-item.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +45,6 @@ class _TranslatorState extends State<Translator> {
   double maxSoundLevel = -50000;
   double level = 0;
 
-
   void initState() {
     super.initState();
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
@@ -89,189 +87,211 @@ class _TranslatorState extends State<Translator> {
 
   @override
   Widget build(BuildContext context) {
-
-
     Size size = MediaQuery.of(context).size;
 
     return Column(
-        children: [
-          Container(
-            color: Color(0xff001c2f),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Center(child: Text("Voice translate", style: TextStyle(color: Colors.white))),
-                IconButton(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  color: Colors.white,
-                  icon: Icon(
-                    Icons.settings_voice,
-                    color: _hasSpeech ? Colors.blue : Colors.white,
-                  ),
-                  onPressed: () {
-                    !_hasSpeech || speech.isListening ? null : startListening();
-                  },
+      children: [
+        Container(
+          color: Color(0xff001c2f),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Center(
+                  child: Text("Voice translate",
+                      style: TextStyle(color: Colors.white))),
+              IconButton(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                color: Colors.white,
+                icon: Icon(
+                  Icons.settings_voice,
+                  color: _hasSpeech ? Colors.blue : Colors.white,
                 ),
-              ],
+                onPressed: () {
+                  !_hasSpeech || speech.isListening ? null : startListening();
+                },
+              ),
+            ],
+          ),
+        ),
+        Container(
+          color: Color(0XFFc8dcfd),
+          child: Container(
+            width: size.width,
+            height:
+                visualAreaHeight != null ? visualAreaHeight : size.height * 0.2,
+            decoration: BoxDecoration(
+              color: Color(0xff001c2f),
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(50),
+              ),
+            ),
+            child: Image.asset(
+              "assets/images/recording.gif",
+              fit: BoxFit.contain,
             ),
           ),
-          Container(
-            color: Color(0XFFc8dcfd),
-            child: Container(
-              width: size.width,
-              height:
-                  visualAreaHeight != null ? visualAreaHeight : size.height * 0.3,
-              decoration: BoxDecoration(
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            children: [
+              Container(
                 color: Color(0xff001c2f),
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(50),
-                ),
-              ),
-              child: Image.asset(
-                "assets/images/recording.gif",
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              children: [
-                Container(
-                  color: Color(0xff001c2f),
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0XFFc8dcfd),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                      ),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 15,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.text_fields),
-                        SizedBox(width: 10,),
-                        DropdownButton<ListItem>(
-                              value: _selectedCurrentLang,
-                              items: _dropdownMenuItems,
-                              onChanged: (value) async {
-                                await translateIt();
-                                setState(() {
-                                  _selectedCurrentLang = value;
-                                  currentLang = value.value;
-                                });
-                              },
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: size.width,
-                    color: Color(0XFFc8dcfd),
-                    child: TextFormField(
-                      controller: _starLangController,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 20,
-                        decoration: TextDecoration.none,
-                      ),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                        hintText: "Start Language",
-                        border: InputBorder.none,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          visualAreaHeight = size.height * 0.1;
-                        });
-                      },
-                      onEditingComplete: () {
-                        FocusScope.of(context).unfocus();
-
-                        translateIt();
-                        setState(() {
-                          visualAreaHeight = size.height * 0.3;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Container(
+                child: Container(
                   height: 50,
                   decoration: BoxDecoration(
                     color: Color(0XFFc8dcfd),
                     borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(50),
+                      topLeft: Radius.circular(50),
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              children: [
-                Container(
-                  color: Color(0XFFc8dcfd),
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(10),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.text_fields),
+                      SizedBox(
+                        width: 10,
                       ),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 15,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.text_fields),
-                        SizedBox(width: 10,),
-                        DropdownButton<ListItem>(
-                          value: _selectedTargetLang,
-                          items: _dropdownMenuItems,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedTargetLang = value;
-                              targetLang = value.value;
-                            });
-
-                            translateIt();
-                          },
-                        ),
-                      ],
-                    ),
+                      DropdownButton<ListItem>(
+                        value: _selectedCurrentLang,
+                        items: _dropdownMenuItems,
+                        onChanged: (value) async {
+                          await translateIt();
+                          setState(() {
+                            _selectedCurrentLang = value;
+                            currentLang = value.value;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: SelectableText(
-                    translatedText != null ? translatedText : "Target Language",
+              ),
+              Expanded(
+                child: Container(
+                  width: size.width,
+                  color: Color(0XFFc8dcfd),
+                  child: TextFormField(
+                    minLines: 2,
+                    maxLines: 4,
+                    maxLengthEnforced: true,
+                    controller: _starLangController,
                     style: TextStyle(
                       color: Colors.grey[700],
                       fontSize: 20,
+                      decoration: TextDecoration.none,
                     ),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                      hintText: "Start Language",
+                      border: InputBorder.none,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        visualAreaHeight = size.height * 0.05;
+                      });
+                    },
+                    onEditingComplete: () {
+                      FocusScope.of(context).unfocus();
+
+                      translateIt();
+                      setState(() {
+                        visualAreaHeight = size.height * 0.3;
+                      });
+                    },
+                    onFieldSubmitted: (string) {
+                      FocusScope.of(context).unfocus();
+                    },
                   ),
                 ),
-              ],
-            ),
-          )
-        ],
-      );
+              ),
+              Container(
+                height: 50,
+                width: size.width,
+                decoration: BoxDecoration(
+                  color: Color(0XFFc8dcfd),
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(50),
+                  ),
+                ),
+                child: FlatButton(
+                  child: Text("Submit"),
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+
+                    translateIt();
+                    setState(() {
+                      visualAreaHeight = size.height * 0.22;
+                    });
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            children: [
+              Container(
+                color: Color(0XFFc8dcfd),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.text_fields),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      DropdownButton<ListItem>(
+                        value: _selectedTargetLang,
+                        items: _dropdownMenuItems,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedTargetLang = value;
+                            targetLang = value.value;
+                          });
+
+                          translateIt();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: SelectableText(
+                  translatedText != null ? translatedText : "Target Language",
+                  style: TextStyle(
+                    color: Colors.grey[700],
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 
   void initSpeechState() async {
@@ -304,21 +324,20 @@ class _TranslatorState extends State<Translator> {
     print("start1111");
 
     speech.listen(
-      onResult: resultListener,
-      listenFor: Duration(seconds: 10),
-      localeId: _currentLocateId,
-      onSoundLevelChange: soundLevelListener,
-      cancelOnError: true,
-      partialResults: true,
-      onDevice: true,
-      listenMode: ListenMode.confirmation
-    );
+        onResult: resultListener,
+        listenFor: Duration(seconds: 10),
+        localeId: _currentLocateId,
+        onSoundLevelChange: soundLevelListener,
+        cancelOnError: true,
+        partialResults: true,
+        onDevice: true,
+        listenMode: ListenMode.confirmation);
   }
 
   void resultListener(SpeechRecognitionResult result) {
     print("outputText : $result");
 
-    if(result.finalResult)
+    if (result.finalResult)
       setState(() {
         outputText = result.recognizedWords;
         _starLangController.text = outputText;
