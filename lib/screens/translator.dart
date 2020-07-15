@@ -189,7 +189,7 @@ class _TranslatorState extends State<Translator> {
                         vertical: 10,
                         horizontal: 20,
                       ),
-                      hintText: "Start Language",
+                      hintText: "Translate from...",
                       border: InputBorder.none,
                     ),
                     onTap: () {
@@ -221,7 +221,7 @@ class _TranslatorState extends State<Translator> {
                   ),
                 ),
                 child: FlatButton(
-                  child: Text("Submit"),
+                  child: Text("Translate"),
                   onPressed: () {
                     FocusScope.of(context).unfocus();
 
@@ -280,7 +280,7 @@ class _TranslatorState extends State<Translator> {
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: SelectableText(
-                  translatedText != null ? translatedText : "Target Language",
+                  translatedText != null ? translatedText : "Translate to...",
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 20,
