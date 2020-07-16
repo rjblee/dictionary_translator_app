@@ -37,12 +37,28 @@ class _MyTranslatorState extends State<MyTranslator> {
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
-              title: Text("Translator"),
-              icon: Icon(Icons.text_fields),
+              title: Text(
+                "Translator",
+                style: TextStyle(
+                  color: _selectedIndex == 0 ? Colors.blue : Colors.grey[600],
+                ),
+              ),
+              icon: Icon(
+                Icons.text_fields,
+                color: _selectedIndex == 0 ? Colors.blue : Colors.grey[600],
+              ),
             ),
             BottomNavigationBarItem(
-              title: Text("Dictionary"),
-              icon: Icon(Icons.library_books),
+              title: Text(
+                "Dictionary",
+                style: TextStyle(
+                  color: _selectedIndex == 1 ? Colors.blue : Colors.grey[600],
+                ),
+              ),
+              icon: Icon(
+                Icons.library_books,
+                color: _selectedIndex == 1 ? Colors.blue : Colors.grey[600],
+              ),
             ),
           ],
           onTap: onItemTapped,
