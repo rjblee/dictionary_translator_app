@@ -23,7 +23,7 @@ class _DictionaryState extends State<Dictionary> {
   Timer _debounce;
 
   _search() async {
-    if (_controller.text == null || _controller.text.length == 0 ) {
+    if (_controller.text == null || _controller.text.length == 0) {
       _streamController.add(null);
       return;
     }
@@ -48,189 +48,404 @@ class _DictionaryState extends State<Dictionary> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Center(child: Text("Dictionary")),
-          backgroundColor: Color(0xff001c2f),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(60),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            color: Color(0xff001c2f),
+            child: Column(
               children: [
-                Expanded(
-                  child: Neumorphic(
-                    margin: EdgeInsets.only(left: 18, bottom: 14),
-                    style: NeumorphicStyle(
-                      shape: NeumorphicShape.flat,
-                      lightSource: LightSource.bottom,
-                      color: Colors.white,
-                      depth: 10,
-                      boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        "Dictionary",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-//                    decoration: BoxDecoration(
-//                      color: Colors.white,
-//                      borderRadius: BorderRadius.circular(24),
-//                    ),
-                    child: TextFormField(
-                      onChanged: (String text) {
-                        if (_debounce?.isActive ?? false) _debounce.cancel();
-                        _debounce =
-                            Timer(const Duration(milliseconds: 2000), () {
-                          _search();
-                        });
-                      },
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: "Search for a Word",
-                        contentPadding: EdgeInsets.only(left: 34),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                    size: 36,
-                  ),
-                  onPressed: () {
-                    FocusScope.of(context).unfocus();
-                    _search();
-                  },
-                )
+                SizedBox(height: 30),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Neumorphic(
+                        margin: EdgeInsets.only(left: 18, bottom: 14),
+                        style: NeumorphicStyle(
+                          shape: NeumorphicShape.flat,
+                          lightSource: LightSource.bottom,
+                          color: Colors.white,
+                          depth: 0,
+                          boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(25),
+                          ),
+                        ),
+                        child: TextFormField(
+                          onChanged: (String text) {
+                            if (_debounce?.isActive ?? false)
+                              _debounce.cancel();
+                            _debounce =
+                                Timer(const Duration(milliseconds: 2000), () {
+                              _search();
+                            });
+                          },
+                          controller: _controller,
+                          decoration: InputDecoration(
+                            hintText: "Search for a word",
+                            contentPadding: EdgeInsets.only(left: 34),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: 36,
+                      ),
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        _search();
+                      },
+                    )
+                  ],
+                ),
               ],
             ),
           ),
-        ),
-        body: Container(
-          margin: EdgeInsets.all(10),
-          child: StreamBuilder(
-            stream: _stream,
-            builder: (BuildContext ctx, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return Center(
-                  child: Text("Enter a search word"),
-                );
-              }
+          Container(
+            padding: EdgeInsets.all(10),
+            height: 500,
+            child: StreamBuilder(
+              stream: _stream,
+              builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                  return Center(
+                    child: Container(
+                      child: Text(
+                        "Enter a word to search",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                }
 
-              if (snapshot.data == "waiting") {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+                if (snapshot.data == "waiting") {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-              return ListView.builder(
-                itemCount: snapshot.data["definitions"].length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListBody(
-                    children: [
-                      Neumorphic(
-                        style: NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          lightSource: LightSource.top,
-                          color: Colors.yellow[700],
-                          depth: 5,
-                          boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(10),
+                return ListView.builder(
+                  itemCount: snapshot.data["definitions"].length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListBody(
+                      children: [
+                        Neumorphic(
+                          style: NeumorphicStyle(
+                            shape: NeumorphicShape.flat,
+                            lightSource: LightSource.top,
+                            color: Colors.yellow[400],
+                            depth: 5,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(10),
+                            ),
                           ),
-                        ), //                        decoration: BoxDecoration(
-//                          color: Colors.blueGrey[200],
-//                          borderRadius: BorderRadius.circular(18),
-//                        ),
-                        child: ListTile(
-                          leading: snapshot.data["definitions"][index]
-                                      ["image_url"] ==
-                                  null
-                              ? null
-                              : CircleAvatar(
-                                  backgroundImage: NetworkImage(snapshot
-                                      .data["definitions"][index]["image_url"]),
-                                ),
-                          title: RichText(
+                          child: ListTile(
+                            leading: snapshot.data["definitions"][index]
+                                        ["image_url"] ==
+                                    null
+                                ? null
+                                : CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        snapshot.data["definitions"][index]
+                                            ["image_url"]),
+                                  ),
+                            title: RichText(
+                              text: TextSpan(
+                                style: DefaultTextStyle.of(context).style,
+                                children: [
+                                  TextSpan(
+                                    text: _controller.text.trim(),
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: " (",
+                                  ),
+                                  TextSpan(
+                                      text: snapshot.data["definitions"][index]
+                                          ["type"]),
+                                  TextSpan(
+                                    text: ")",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: RichText(
                             text: TextSpan(
                               style: DefaultTextStyle.of(context).style,
                               children: [
                                 TextSpan(
-                                  text: _controller.text.trim(),
+                                  text: "Definition: \n",
                                   style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text: snapshot.data["definitions"][index]
+                                      ["definition"],
+                                  style: TextStyle(
+                                    fontSize: 18,
                                   ),
-                                ),
-                                TextSpan(
-                                  text: " (",
-                                ),
-                                TextSpan(
-                                    text: snapshot.data["definitions"][index]
-                                        ["type"]),
-                                TextSpan(
-                                  text: ")",
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: [
-                              TextSpan(
-                                text: "Definition: \n",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text: snapshot.data["definitions"][index]
-                                    ["definition"],
-                                style: TextStyle(
-                                  fontSize: 18,
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: RichText(
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: [
+                                TextSpan(
+                                  text: "Example: \n",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                TextSpan(
+                                  text: "\"",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: snapshot.data["definitions"][index]
+                                              ["example"][0]
+                                          .toUpperCase() +
+                                      snapshot.data["definitions"][index]
+                                              ["example"]
+                                          .substring(1),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: ".\"",
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: [
-                              TextSpan(
-                                text: "Example: \"",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text: snapshot.data["definitions"][index]
-                                    ["example"],
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                              TextSpan(
-                                text: "\"",
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
           ),
-        ),
+        ],
+//      home: Scaffold(
+//        appBar: AppBar(
+//          title: Center(child: Text("Dictionary")),
+//          backgroundColor: Color(0xff001c2f),
+//          bottom: PreferredSize(
+//            preferredSize: Size.fromHeight(60),
+//            child: Row(
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: [
+//                Expanded(
+//                  child: Neumorphic(
+//                    margin: EdgeInsets.only(left: 18, bottom: 14),
+//                    style: NeumorphicStyle(
+//                      shape: NeumorphicShape.flat,
+//                      lightSource: LightSource.bottom,
+//                      color: Colors.white,
+//                      depth: 10,
+//                      boxShape: NeumorphicBoxShape.roundRect(
+//                        BorderRadius.circular(25),
+//                      ),
+//                    ),
+////                    decoration: BoxDecoration(
+////                      color: Colors.white,
+////                      borderRadius: BorderRadius.circular(24),
+////                    ),
+//                    child: TextFormField(
+//                      onChanged: (String text) {
+//                        if (_debounce?.isActive ?? false) _debounce.cancel();
+//                        _debounce =
+//                            Timer(const Duration(milliseconds: 2000), () {
+//                          _search();
+//                        });
+//                      },
+//                      controller: _controller,
+//                      decoration: InputDecoration(
+//                        hintText: "Search for a Word",
+//                        contentPadding: EdgeInsets.only(left: 34),
+//                        border: InputBorder.none,
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                IconButton(
+//                  icon: Icon(
+//                    Icons.search,
+//                    color: Colors.white,
+//                    size: 36,
+//                  ),
+//                  onPressed: () {
+//                    FocusScope.of(context).unfocus();
+//                    _search();
+//                  },
+//                )
+//              ],
+//            ),
+//          ),
+//        ),
+//      body: Container(
+//        margin: EdgeInsets.all(10),
+//        child: StreamBuilder(
+//          stream: _stream,
+//          builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+//            if (snapshot.data == null) {
+//              return Center(
+//                child: Text("Enter a search word"),
+//              );
+//            }
+//
+//            if (snapshot.data == "waiting") {
+//              return Center(
+//                child: CircularProgressIndicator(),
+//              );
+//            }
+//
+//            return ListView.builder(
+//              itemCount: snapshot.data["definitions"].length,
+//              itemBuilder: (BuildContext context, int index) {
+//                return ListBody(
+//                  children: [
+//                    Neumorphic(
+//                      style: NeumorphicStyle(
+//                        shape: NeumorphicShape.flat,
+//                        lightSource: LightSource.top,
+//                        color: Colors.yellow[700],
+//                        depth: 5,
+//                        boxShape: NeumorphicBoxShape.roundRect(
+//                          BorderRadius.circular(10),
+//                        ),
+//                      ), //                        decoration: BoxDecoration(
+////                          color: Colors.blueGrey[200],
+////                          borderRadius: BorderRadius.circular(18),
+////                        ),
+//                      child: ListTile(
+//                        leading: snapshot.data["definitions"][index]
+//                                    ["image_url"] ==
+//                                null
+//                            ? null
+//                            : CircleAvatar(
+//                                backgroundImage: NetworkImage(snapshot
+//                                    .data["definitions"][index]["image_url"]),
+//                              ),
+//                        title: RichText(
+//                          text: TextSpan(
+//                            style: DefaultTextStyle.of(context).style,
+//                            children: [
+//                              TextSpan(
+//                                text: _controller.text.trim(),
+//                                style: TextStyle(
+//                                  fontSize: 20,
+//                                  fontWeight: FontWeight.bold,
+//                                ),
+//                              ),
+//                              TextSpan(
+//                                text: " (",
+//                              ),
+//                              TextSpan(
+//                                  text: snapshot.data["definitions"][index]
+//                                      ["type"]),
+//                              TextSpan(
+//                                text: ")",
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                    Padding(
+//                      padding: const EdgeInsets.all(10.0),
+//                      child: RichText(
+//                        text: TextSpan(
+//                          style: DefaultTextStyle.of(context).style,
+//                          children: [
+//                            TextSpan(
+//                              text: "Definition: \n",
+//                              style: TextStyle(
+//                                  fontSize: 18, fontWeight: FontWeight.bold),
+//                            ),
+//                            TextSpan(
+//                              text: snapshot.data["definitions"][index]
+//                                  ["definition"],
+//                              style: TextStyle(
+//                                fontSize: 18,
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                      ),
+//                    ),
+//                    Padding(
+//                      padding: const EdgeInsets.all(10.0),
+//                      child: RichText(
+//                        text: TextSpan(
+//                          style: DefaultTextStyle.of(context).style,
+//                          children: [
+//                            TextSpan(
+//                              text: "Example: \"",
+//                              style: TextStyle(
+//                                fontSize: 18,
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
+//                            TextSpan(
+//                              text: snapshot.data["definitions"][index]
+//                                  ["example"],
+//                              style: TextStyle(
+//                                fontSize: 18,
+//                              ),
+//                            ),
+//                            TextSpan(
+//                              text: "\"",
+//                            ),
+//                          ],
+//                        ),
+//                      ),
+//                    ),
+//                  ],
+//                );
+//              },
+//            );
+//          },
+//        ),
+//      ),
+//      ),
       ),
     );
   }
