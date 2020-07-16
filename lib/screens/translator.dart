@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:dictionarytranslatorapp/widgets/language-list-item.dart';
+import 'package:dictionarytranslatorapp/widgets/scrollable-text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -20,7 +21,7 @@ class _TranslatorState extends State<Translator> {
   String targetLang;
   TextEditingController _starLangController = TextEditingController();
   String startText;
-  String translatedText = '';
+  String translatedText;
   List<ListItem> _dropdownItems = [
     ListItem('en', "English"),
     ListItem('fr', "French"),
@@ -284,16 +285,9 @@ class _TranslatorState extends State<Translator> {
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: SelectableText(
-                  translatedText != null ? translatedText : "Translate to...",
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 20,
-                  ),
-                ),
+              Expanded(
+                flex:1,
+                child: ScrollableText(text: translatedText),
               ),
             ],
           ),
@@ -303,7 +297,6 @@ class _TranslatorState extends State<Translator> {
   }
 
   void initSpeechState() async {
-    print("start");
     bool hasSpeech = await speech.initialize(
         onError: errorListener, onStatus: statusListener);
     if (hasSpeech) {
