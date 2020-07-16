@@ -52,7 +52,7 @@ class _TranslatorState extends State<Translator> {
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
     _selectedCurrentLang = _dropdownMenuItems[0].value;
     currentLang = _dropdownMenuItems[0].value.value;
-    _selectedTargetLang = _dropdownMenuItems[2].value;
+    _selectedTargetLang = _dropdownMenuItems[1].value;
     targetLang = _dropdownMenuItems[2].value.value;
 
     initSpeechState();
@@ -160,6 +160,9 @@ class _TranslatorState extends State<Translator> {
                       DropdownButton<ListItem>(
                         value: _selectedCurrentLang,
                         items: _dropdownMenuItems,
+                        underline: Container(
+                          height: 0,
+                        ),
                         onChanged: (value) async {
                           await translateIt();
                           setState(() {
@@ -265,6 +268,9 @@ class _TranslatorState extends State<Translator> {
                       DropdownButton<ListItem>(
                         value: _selectedTargetLang,
                         items: _dropdownMenuItems,
+                        underline: Container(
+                          height: 0,
+                        ),
                         onChanged: (value) {
                           setState(() {
                             _selectedTargetLang = value;
