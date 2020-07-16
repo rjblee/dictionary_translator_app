@@ -23,16 +23,18 @@ class _TranslatorState extends State<Translator> {
   String translatedText = '';
   List<ListItem> _dropdownItems = [
     ListItem('en', "English"),
+    ListItem('fr', "French"),
     ListItem('es', "Spanish"),
     ListItem('ko', "Korean"),
-    ListItem('fr', "French"),
+    ListItem('zh-TW', "Chinese"),
+    ListItem('zh', "Chinese (Simplified)"),
     ListItem('ja', "Japanese"),
-    ListItem('zu', "Chinese"),
-    ListItem('cs', "Czech"),
     ListItem('fh', "Thai"),
+    ListItem('cs', "Czech"),
     ListItem('ar', "Arabic"),
     ListItem('el', "Greek"),
   ];
+
   List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
   ListItem _selectedCurrentLang;
   ListItem _selectedTargetLang;
