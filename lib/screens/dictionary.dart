@@ -23,19 +23,18 @@ class _DictionaryState extends State<Dictionary> {
   Timer _debounce;
 
   _search() async {
-    if (_controller.text == null || _controller.text.length == 0) {
+    if (_controller.text == null || _controller.text.length == 0 || _stream == null) {
       _streamController.add(null);
       return;
     }
 
-//    if (_controller.text == int) {
+//    if (_controller.text == false) {
 //      _streamController.add("No searches found");
 //    }
 
     _streamController.add("waiting");
 
-    Response response = await get(_url + _controller.text.trim(),
-        headers: {"Authorization": "Token " + _token});
+    Response response = await get(_url + _controller.text.trim(), headers: {"Authorization": "Token " + _token});
     _streamController.add(json.decode(response.body));
   }
 
@@ -89,10 +88,8 @@ class _DictionaryState extends State<Dictionary> {
                         ),
                         child: TextFormField(
                           onChanged: (String text) {
-                            if (_debounce?.isActive ?? false)
-                              _debounce.cancel();
-                            _debounce =
-                                Timer(const Duration(milliseconds: 2000), () {
+                            if (_debounce?.isActive ?? false) _debounce.cancel();
+                            _debounce = Timer(const Duration(milliseconds: 2000), () {
                               _search();
                             });
                           },
@@ -132,8 +129,7 @@ class _DictionaryState extends State<Dictionary> {
                     child: Container(
                       child: Text(
                         "Enter a word to search",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                   );
@@ -161,14 +157,10 @@ class _DictionaryState extends State<Dictionary> {
                             ),
                           ),
                           child: ListTile(
-                            leading: snapshot.data["definitions"][index]
-                                        ["image_url"] ==
-                                    null
+                            leading: snapshot.data["definitions"][index]["image_url"] == null
                                 ? null
                                 : CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        snapshot.data["definitions"][index]
-                                            ["image_url"]),
+                                    backgroundImage: NetworkImage(snapshot.data["definitions"][index]["image_url"]),
                                   ),
                             title: RichText(
                               text: TextSpan(
@@ -184,9 +176,7 @@ class _DictionaryState extends State<Dictionary> {
                                   TextSpan(
                                     text: " (",
                                   ),
-                                  TextSpan(
-                                      text: snapshot.data["definitions"][index]
-                                          ["type"]),
+                                  TextSpan(text: snapshot.data["definitions"][index]["type"]),
                                   TextSpan(
                                     text: ")",
                                   ),
@@ -203,13 +193,11 @@ class _DictionaryState extends State<Dictionary> {
                               children: [
                                 TextSpan(
                                   text: "Definition: \n",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                                 ),
                                 TextSpan(
-                                  text: snapshot.data["definitions"][index]
-                                      ["definition"],
+                                  text: snapshot.data["definitions"][index]["definition"][0].toUpperCase() +
+                                      snapshot.data["definitions"][index]["definition"].substring(1),
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -238,12 +226,8 @@ class _DictionaryState extends State<Dictionary> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: snapshot.data["definitions"][index]
-                                              ["example"][0]
-                                          .toUpperCase() +
-                                      snapshot.data["definitions"][index]
-                                              ["example"]
-                                          .substring(1),
+                                  text: snapshot.data["definitions"][index]["example"][0].toUpperCase() +
+                                      snapshot.data["definitions"][index]["example"].substring(1),
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
