@@ -129,7 +129,11 @@ class _DictionaryState extends State<Dictionary> {
                     child: Container(
                       child: Text(
                         "Enter a word to search",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Raleway',
+                        ),
                       ),
                     ),
                   );
