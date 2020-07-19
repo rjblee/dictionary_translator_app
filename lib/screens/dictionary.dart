@@ -130,7 +130,7 @@ class _DictionaryState extends State<Dictionary> {
                       child: Text(
                         "Enter a word to search",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Raleway',
                         ),
@@ -154,7 +154,7 @@ class _DictionaryState extends State<Dictionary> {
                           style: NeumorphicStyle(
                             shape: NeumorphicShape.flat,
                             lightSource: LightSource.top,
-                            color: Colors.yellow[400],
+                            color: Colors.yellow[300],
                             depth: 5,
                             boxShape: NeumorphicBoxShape.roundRect(
                               BorderRadius.circular(10),
