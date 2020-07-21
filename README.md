@@ -9,7 +9,8 @@
 
 ### Translator
 
-!["Translator default"](https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595288099.png?raw=true){:class="img-responsive" :height="50%" width="50%"}
+!["Translator default"](https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595288099.png?raw=true)
+<img src="https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595288099.png?raw=true" width="48">
 !["Translator translated"](https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595291412.png?raw=true)
 
 ### Dictionary
