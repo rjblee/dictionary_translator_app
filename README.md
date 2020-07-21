@@ -9,7 +9,7 @@
 
 ### Translator
 
-!["Translator default"](https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595288099.png?raw=true)
+!["Translator default"](https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595288099.png?raw=true| width=100)
 !["Translator translated"](https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595291412.png?raw=true)
 
 ### Dictionary
