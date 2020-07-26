@@ -21,8 +21,7 @@ The application has both dictionary and translator features, with voice recognit
 ## Screenshots
 
 ### Translator
-
-<img src="https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595288099.png?raw=true" width="300">  <img src="https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595291412.png?raw=true" width="300">
+<img src="https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595754883.png?raw=true" width="300"> <img src="https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595288099.png?raw=true" width="300">  <img src="https://github.com/rjblee/dictionary_translator_app/blob/master/assets/screenshots/Screenshot_1595291412.png?raw=true" width="300">
 
 
 
