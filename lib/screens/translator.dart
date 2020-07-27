@@ -253,7 +253,6 @@ class _TranslatorState extends State<Translator> {
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(50),
-                      topRight: Radius.circular(10),
                     ),
                   ),
                   padding: EdgeInsets.symmetric(

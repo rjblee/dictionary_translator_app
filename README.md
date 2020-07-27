@@ -4,6 +4,7 @@
 Dictionary and Translator application is a mobile application for both iOS and Android devices.
 The application has both dictionary and translator features, with voice recognition from speech to text.
 
+
 ## Tech Stack
 - Flutter
 - Dart
