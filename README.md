@@ -1,4 +1,4 @@
-# dictionary_translator_app
+# Dictionary_translator_app
 
 ## Tech Stack
 - Flutter
