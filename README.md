@@ -1,7 +1,7 @@
 # Dictionary & Translator iOS/Android Application
 
 ## Description
-Dictionary and Translator application is a mobile application for both iOS and Android devices.
+The Dictionary and Translator app is a mobile application that is for both iOS and Android devices.
 The application has both dictionary and translator features, with voice recognition from speech to text.
 
 
